@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles/normalize.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="styles/html5bp.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="styles/style.css" media="screen" charset="utf-8">
+    <!-- <link rel="stylesheet" href="styles/bootstrab.min.css" media="screen" charset="utf-8"> -->
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -19,7 +20,7 @@
         <a href="#"><h1>Feedr</h1></a>
         <nav>
           <ul>
-            <li><a href="#">News Source: <span>Source Name</span></a>
+            <li><a href="#" id="source">News Source: <span>Source Name</span></a>
               <ul>
                   <li><a href="#">Source 1</a></li>
                   <li><a href="#">Source 2</a></li>
@@ -28,8 +29,11 @@
             </li>
           </ul>
           <section id="search">
-            <input type="text" name="name" value="">
-            <a href="#"><img src="images/search.png" alt="" /></a>
+            
+  <input type="text" id="searchInput" name="name" value="">
+  <a href="#"  id="searchIcon" ><img src="images/search.png" alt="" /> </a>
+   
+   
           </section>
         </nav>
         <div class="clearfix"></div>
@@ -38,67 +42,21 @@
     <div id="popUp" class="loader hidden">
       <a href="#" class="closePopUp">X</a>
       <div class="container">
-        <h1>Article title here</h1>
-        <p>
-          Article description/content here.
-        </p>
+        <h1 id="title"></h1>
+        <h5 id="aouther"></h5>
+        <img style="width:100%" id="imgurl" src="#imgurl#" alt="" />
+        <p id="cont"></p>
         <a href="#" class="popUpAction" target="_blank">Read more from source</a>
       </div>
     </div>
     <section id="main" class="container">
-      <article class="article">
-        <section class="featuredImage">
-          <img src="images/article_placeholder_1.jpg" alt="" />
-        </section>
-        <section class="articleContent">
-            <a href="#"><h3>Test article title</h3></a>
-            <h6>Lifestyle</h6>
-        </section>
-        <section class="impressions">
-          526
-        </section>
-        <div class="clearfix"></div>
-      </article>
-      <article class="article">
-        <section class="featuredImage">
-          <img src="images/article_placeholder_2.jpg" alt="" />
-        </section>
-        <section class="articleContent">
-            <a href="#"><h3>Test article title</h3></a>
-            <h6>Lifestyle</h6>
-        </section>
-        <section class="impressions">
-          526
-        </section>
-        <div class="clearfix"></div>
-      </article>
-      <article class="article">
-        <section class="featuredImage">
-          <img src="images/article_placeholder_2.jpg" alt="" />
-        </section>
-        <section class="articleContent">
-            <a href="#"><h3>Test article title</h3></a>
-            <h6>Lifestyle</h6>
-        </section>
-        <section class="impressions">
-          526
-        </section>
-        <div class="clearfix"></div>
-      </article>
-      <article class="article">
-        <section class="featuredImage">
-          <img src="images/article_placeholder_1.jpg" alt="" />
-        </section>
-        <section class="articleContent">
-            <a href="#"><h3>Test article title</h3></a>
-            <h6>Lifestyle</h6>
-        </section>
-        <section class="impressions">
-          526
-        </section>
-        <div class="clearfix"></div>
-      </article>
+      
+      
+      
+      <div class="articles"></div>
+     
     </section>
+
 
     <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"

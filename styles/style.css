@@ -16,8 +16,8 @@
   
   #popUp .closePopUp {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 40px;
+    right: 250px;
     font-size: 40px;
     color: #578184;
     text-decoration: none;

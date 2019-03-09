@@ -2,16 +2,27 @@
   Please add all Javascript code to this file.
 */
 $(document).ready(function () {
+  $("#main").empty();
+
+  $("#source").text("all news")
   getNY();
+  getNEWSAPI();
 
 $("#NYnews").on('click', function(){
+  $("#main").empty();
+  $("#source").text("New York Times")
    getNY();
 });
 
 $("#newsapi").on('click', function(){
-  $("article").hide();
+  $("#source").text("News API")
+  $("#main").empty();
   getNEWSAPI();
 });
+
+
+
+
 
 });
 
@@ -19,29 +30,8 @@ $("#newsapi").on('click', function(){
 
 
 
-var temp = '  <article class="article">'+
-'<section class="featuredImage">'+
-  `<img src="#imgurl#" alt="" />`+
-'</section>'+
-'<section class="articleContent">'+
-   '<a href="#" id="title2" ><h3>#title#</h3></a>'+
-  '  <h6>#aouther#</h6>'+
-'</section>'+
-'<section class="impressions">'+
- ' 526'+
-'</section>'+
-'<div class="content" style="margin:20px" > #cont# </div>'+
-'<div class="clearfix"></div>'+
-'</article>';
 
 
-var pupup= '<div class="container">'+
-  '<h1 id="title">#title#</h1>'+
-  '<h5 id="aouther">#aouther#</h5>'+
-  '<img style="width:100%" id="imgurl" src="#imgurl#" alt="" />'+
-  '<p id="cont">#cont#</p>'+
-  '<a href="#" class="popUpAction" target="_blank">Read more from source</a>'+
-'</div>';
 
 
 /* APIs */
@@ -64,101 +54,52 @@ $.ajax({
 
   success:function(data){
 
-     
-    console.log(data.articles);
+         
+ 
     art = data.articles;
-    var imgurl = '';
-    var auth = '';
-    var title = '';
-    var content = '';
-    var tempM ='';
-    let num = 0 ;
-    art.forEach(t => {
-      
-// // debugger;
-imgurl = t.urlToImage;
-         auth = t.author;
-         title = t.title;
-         content = t.content;
-         tempM = temp.replace("#title#",title).replace("#imgurl#",imgurl).replace("#aouther#",auth).replace("#cont#",content) ;
-    
+    console.log(art);
 
-  $("article").on("click", function () {
-    $("#popUp").removeClass("hidden").removeClass("loader")
-    $("article").hide();
-       
-    $("#title").text(`${t.title}`)
-    $("#aouther").text(`${t.author}`)
-    $("#cont").text(`${t.content}`)
-    // $(".popUpAction").attr('href', `${t.url}`)
-    $("#imgurl").attr(src,`${t.urlToImage}`)
-        
-  });      
-$('.closePopUp').on('click',function(){
-$('#popUp').addClass('hidden')       
-$("article").show();
-});  
-      $(".articles").append(tempM)
-      // $("#popUp").append(pupup1)
-      // $("#popUp")
+
+
+    art.forEach((t ,i) => {
+      i= i+20;
+      let date = t.publishedAt.toString().substring(2, 7)
+      
+      $("#main").append(`
+      <article class="article">
+      <section class="featuredImage">
+        <img src="${t.urlToImage}" alt="" />
+      </section>
+      <section class="articleContent">
+          <a id="article_${i}" href="#"><h3>${t.title}</h3></a>
+          <h6>${t.author}</h6>
+      </section>
+      <section class="impressions">
+      ${date}
+      </section>
+      <div class="clearfix"></div>
+    </article>
+  `)
+
+
+  });
+  art.forEach((t ,i) => {
+    i= i+20;
+    $(`#article_${i}`).on("click", function () {
+    pupUp(t.title, t.content,t.author,t.urlToImage,t.url);
     });
+    });
+
+
+   
   },error:function(a,b,c){
     console.error(a,b,c);
   }      
-})
+});
+  
 };
 
-// debugger;
-// $.ajax({
 
-//     url:url1,
-//     type:"GET",
-//    // data: {"country":"us" ,"apiKey":"baddbb89804b4323b1bbb96a1c3f8b4e" },
-//     success:function(data){
-//       $(".article").remove();
-//       // console.log(data.articles);
-//       art = data.articles;
-//       var imgurl = '';
-//       var auth = '';
-//       var title = '';
-//       var content = '';
-//       var tempM ='';
-//       art.forEach(t => {
-// // debugger;
-//          imgurl = t.urlToImage;
-//          auth = t.author;
-//          title = t.title;
-//          content = t.content;
-//          tempM = temp.replace("#title#",title).replace("#imgurl#",imgurl).replace("#aouther#",auth).replace("#cont#",content) ;
-//          pupup1 = pupup.replace("#title#",title).replace("#imgurl#",imgurl).replace("#aouther#",auth).replace("#cont#",content) 
-//       // $("#title").text(title)
-//       // $("#aouther").text(auth)      
-//       // $("#cont").text(content)
-//       // $("#imgurl").attr("src",imgurl);
-
-      
-// $('#title2').on('click',function(){
-  
-//   $("#popUp").removeClass("hidden").removeClass("loader")
-//   $("article").hide();
-//     });
-
-// $('.closePopUp').on('click',function(){
-//   $('#popUp').addClass('hidden')       
-//   $("article").show();
-// });
-
-//         $(".articles").append(tempM)
-//         $("#popUp").append(pupup1)
-//         // $("#popUp")
-//       });
-//     },error:function(a,b,c){
-//       console.error(a,b,c);
-//     }
-
-    
-// });
-// }
 //-------- End API1 ---------- //
 
 //---------- Start API 2 -----------//
@@ -177,63 +118,75 @@ function getNY() {
       success:function(data2){
 
          
-        console.log(data2.results);
+        // console.log(data2.results);
         art2 = data2.results;
-        var imgurl = '';
-        var auth = '';
-        var title = '';
-        var content = '';
-        var tempM ='';
-        let num = 0 ;
-        art2.forEach(t => {
-          
-  // // debugger;
-           imgurl = t.thumbnail_standard;
-           auth = t.byline;
-           title = t.title;
-           content = t.abstract;
-           tempM = temp.replace("#title#",title).replace("#imgurl#",imgurl).replace("#aouther#",auth).replace("#cont#",content) ;
-          //  pupup1 = pupup.replace("#title#",title).replace("#imgurl#",imgurl).replace("#aouther#",auth).replace("#cont#",content) ;
-        // $("#title").text(title)
-        // $("#aouther").text(auth)      
-        // $("#cont").text(content)
-        // $("#imgurl").attr("src",imgurl);
-  
-        
-  // $('#title2').on('click',function(){
+        console.log(art2);
 
-  //     });
-  
-      $("article").on("click", function () {
-        $("#popUp").removeClass("hidden").removeClass("loader")
-        $("article").hide();
-        console.log($(this).attr('id') - 1);
-        let index = $(this).attr('id') - 1
-        $("#title").text(`${t.title}`)
-        $("#aouther").text(`${t.byline}`)
-        $("#cont").text(`${t.abstract}`)
-        $(".popUpAction").attr('href', `${t.url}`)
-        $("#imgurl").attr(src,`${t.imgurl}`)
-            
-      });      
-  $('.closePopUp').on('click',function(){
-    $('#popUp').addClass('hidden')       
-    $("article").show();
-  });  
-          $(".articles").append(tempM)
-          // $("#popUp").append(pupup1)
-          // $("#popUp")
+
+
+        art2.forEach((t ,i) => {
+          let date = t.created_date.toString().substring(2, 7)
+          
+          $("#main").append(`
+          <article class="article">
+          <section class="featuredImage">
+            <img src="${t.thumbnail_standard}" alt="" />
+          </section>
+          <section class="articleContent">
+              <a id="article_${i}" href="#"><h3>${t.title}</h3></a>
+              <h6>${t.byline}</h6>
+          </section>
+          <section class="impressions">
+          ${date}
+          </section>
+          <div class="clearfix"></div>
+        </article>
+      `)
+
+
+      });
+      art2.forEach((t ,i) => {
+        $(`#article_${i}`).on("click", function () {
+        pupUp(t.title, t.abstract,t.byline,t.multimedia[3].url,t.url);
         });
+        });
+
+        // function pupUp(title,abstract,byline,thumbnail_standard,url){
+        //   $("#popUp").removeClass("hidden").removeClass("loader")
+        //   $("article").hide();
+        //         $("#title").h(title)
+        //         $("#aouther").text(byline)
+        //         $("#cont").text(abstract)
+        //         $(".popUpAction").attr('href', url)
+        //         $("#imgurl").attr('src',thumbnail_standard)
+        //          }  
+
       },error:function(a,b,c){
         console.error(a,b,c);
       }      
-  })
+  });
 };
 
   //-------- End API2 ---------- //
 
-
+  function pupUp(title,abstract,byline,urlToImage,url){
+    $("#popUp").removeClass("hidden").removeClass("loader")
+    $("article").hide();
+          $("#title").html(title)
+          $("#aouther").html(byline)
+          $("#cont").html(abstract)
+          $(".popUpAction").attr('href', url)
+          $("#imgurl").attr('src',urlToImage)
+           }  
+  
+ 
     
+  $('.closePopUp').on('click',function(){
+    $('#popUp').addClass('hidden')       
+    $("article").show();
+  });         
+
+
   $('#searchIcon').on('click',function(){
     $('#searchInput').toggleClass('show-items');
     $('#source').toggleClass('hide-items');

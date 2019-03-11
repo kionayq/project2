@@ -63,7 +63,7 @@ $.ajax({
 
     art.forEach((t ,i) => {
       i= i+20;
-      let date = t.publishedAt.toString().substring(2, 7)
+      let date = t.publishedAt.toString().substring(5, 10)
       
       $("#main").append(`
       <article class="article">
